@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="port">
+        <item>/dev/ttyS0</item>
+        <item>/dev/ttyS1</item>
+        <item>/dev/ttyS2</item>
+        <item>/dev/ttyS3</item>
+        <item>/dev/ttyS4</item>
+        <item>/dev/ttyS5</item>
+        <item>/dev/ttyUSB0</item>
+        <item>/dev/ttyUSB1</item>
+        <item>/dev/ttyUSB2</item>
+        <item>/dev/ttyUSB3</item>
+        <item>/dev/ttyUSB4</item>
+        <item>/dev/ttyUSB5</item>
+        <item>/dev/ttyHSL0</item>
+        <item>/dev/ttyHSL1</item>
+        <item>/dev/ttyHSL2</item>
+        <item>/dev/ttyHSL3</item>
+        <item>/dev/ttyHSL4</item>
+        <item>/dev/ttyHSL5</item>
+        <item>/dev/ttyO0</item>
+        <item>/dev/ttyO1</item>
+        <item>/dev/ttyO2</item>
+        <item>/dev/ttyO3</item>
+        <item>/dev/ttyO4</item>
+        <item>/dev/ttyO5</item>
+    </string-array>
+
+    <string-array name="speed">
+        <item>300</item>
+        <item>1200</item>
+        <item>2400</item>
+        <item>4800</item>
+        <item>9600</item>
+        <item>19200</item>
+        <item>38400</item>
+        <item>57600</item>
+        <item>115200</item>
+    </string-array>
+</resources>
