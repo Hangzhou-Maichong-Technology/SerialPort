@@ -5,7 +5,7 @@
 
 协议由 byte 数组构成，一般包括起始位、数据位、校验位和结束位，通过对数组数据的解析来达到通信目的。
 
-## 一、创建AndroidStudio项目，导入库文件
+## 一、创建 AndroidStudio 项目，导入库文件
 
 将 mcSerialPort.aar 文件拷贝到 libs 目录下。
 
