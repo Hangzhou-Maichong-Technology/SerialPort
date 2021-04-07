@@ -77,3 +77,6 @@ serialPortManager.setOnDataReceiveListener(new SerialPortManager.OnDataReceiveLi
 **/
 serialPortManager.closeSerialPort();
 ```
+
+## 三、下载体验
+[SerialPort 实例 apk 下载](https://github.com/Hangzhou-Maichong-Technology/SerialPort/raw/master/apk/SerialPort.apk)
