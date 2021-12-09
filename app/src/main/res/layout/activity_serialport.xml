@@ -1,95 +1,365 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".SerialPortActivity">
 
-    <TextView
-        android:id="@+id/tv_recv"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/btn_clear"
-        app:layout_constraintTop_toTopOf="parent"
-        android:singleLine="false"
-        android:scrollbars="vertical"
-        android:background="#DDDDDD"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_clear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="清空接收"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <!--        <ScrollView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_above="@+id/btn_clear">-->
 
-    <Button
-        android:id="@+id/btn_send"
-        android:text="发送"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:orientation="vertical">-->
 
-    <Button
-        android:id="@+id/btn_open"
-        android:text="开启"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/btn_send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv_recv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btn_clear"
+            android:background="#DDDDDD"
+            android:scrollbars="vertical"
+            android:singleLine="false" />
+        <!--            </LinearLayout>-->
 
-    <TextView
-        android:id="@+id/tv_speed"
-        app:layout_constraintBottom_toTopOf="@+id/btn_open"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="波特率:"
-        android:gravity="center"
-        android:layout_width="100dp"
-        android:layout_height="50dp"/>
+        <!--        </ScrollView>-->
 
-    <Spinner
-        app:layout_constraintBottom_toTopOf="@+id/btn_open"
-        app:layout_constraintLeft_toRightOf="@+id/tv_speed"
-        app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/spinner_speed"
-        android:entries="@array/speed"
-        android:layout_width="0dp"
-        android:layout_height="50dp"/>
+        <Button
+            android:id="@+id/btn_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:text="清空接收" />
+    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_port"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/tv_speed"
-        android:gravity="center"
-        android:text="串口设备:"
-        android:layout_width="100dp"
-        android:layout_height="50dp"/>
-
-    <Spinner
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/spinner_speed"
-        app:layout_constraintLeft_toRightOf="@+id/tv_port"
-        android:id="@+id/spinner_port"
-        android:entries="@array/port"
-        android:layout_width="0dp"
-        android:layout_height="50dp"/>
-
-    <EditText
-        android:id="@+id/edit_send"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_clear"
-        app:layout_constraintBottom_toTopOf="@+id/tv_port"
-        android:digits="0123456789abcdef"
-        android:text="aa"
-        android:gravity="top"
-        android:background="#DDDDDD"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"/>
-</android.support.constraint.ConstraintLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_port1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/rl_port1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/edit_send"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/btn_send"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="#DDDDDD"
+                    android:digits="0123456789abcdef"
+                    android:gravity="top"
+                    android:text="aa" />
+
+                <TextView
+                    android:id="@+id/tv_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:text="波特率:"
+                    android:visibility="gone" />
+
+                <Spinner
+                    android:id="@+id/spinner_speed"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@+id/btn_open"
+                    android:layout_toRightOf="@+id/tv_speed"
+                    android:entries="@array/speed" />
+
+                <Button
+                    android:id="@+id/btn_open"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:text="开启" />
+
+                <Button
+                    android:id="@+id/btn_send"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_above="@+id/btn_open"
+                    android:layout_alignParentRight="true"
+                    android:text="发送" />
+
+                <TextView
+                    android:id="@+id/tv_port"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_above="@+id/tv_speed"
+                    android:gravity="center"
+                    android:text="串口设备:"
+                    android:visibility="gone" />
+
+                <Spinner
+                    android:id="@+id/spinner_port"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_above="@+id/btn_open"
+                    android:layout_toLeftOf="@+id/btn_send"
+                    android:layout_toRightOf="@+id/tv_port"
+                    android:entries="@array/port" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rl_port2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/edit_send2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/btn_send2"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="#DDDDDD"
+                    android:digits="0123456789abcdef"
+                    android:gravity="top"
+                    android:text="bb" />
+
+                <TextView
+                    android:id="@+id/tv_speed2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:text="波特率:"
+                    android:visibility="gone" />
+
+                <Spinner
+                    android:id="@+id/spinner_speed2"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@+id/btn_open2"
+                    android:layout_toRightOf="@+id/tv_speed2"
+                    android:entries="@array/speed" />
+
+                <Button
+                    android:id="@+id/btn_open2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:text="开启" />
+
+                <Button
+                    android:id="@+id/btn_send2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_above="@+id/btn_open2"
+                    android:layout_alignParentRight="true"
+                    android:text="发送" />
+
+                <TextView
+                    android:id="@+id/tv_port2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_above="@+id/tv_speed2"
+                    android:gravity="center"
+                    android:text="串口设备:"
+                    android:visibility="gone" />
+
+                <Spinner
+                    android:id="@+id/spinner_port2"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_above="@+id/btn_open2"
+                    android:layout_toLeftOf="@+id/btn_send2"
+                    android:layout_toRightOf="@+id/tv_port2"
+                    android:entries="@array/port" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_port2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rl_port3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/edit_send3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/btn_send3"
+                    android:background="#DDDDDD"
+                    android:digits="0123456789abcdef"
+                    android:gravity="top"
+                    android:text="cc" />
+
+                <TextView
+                    android:id="@+id/tv_speed3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:text="波特率:"
+                    android:visibility="gone" />
+
+                <Spinner
+                    android:id="@+id/spinner_speed3"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@+id/btn_open3"
+                    android:layout_toRightOf="@+id/tv_speed3"
+                    android:entries="@array/speed" />
+
+                <Button
+                    android:id="@+id/btn_open3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:text="开启" />
+
+                <Button
+                    android:id="@+id/btn_send3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_above="@+id/btn_open3"
+                    android:layout_alignParentRight="true"
+                    android:text="发送" />
+
+                <TextView
+                    android:id="@+id/tv_port3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_above="@+id/tv_speed3"
+                    android:gravity="center"
+                    android:text="串口设备:"
+                    android:visibility="gone" />
+
+                <Spinner
+                    android:id="@+id/spinner_port3"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_above="@+id/btn_open3"
+                    android:layout_toLeftOf="@+id/btn_send3"
+                    android:layout_toRightOf="@+id/tv_port3"
+                    android:entries="@array/port" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/rl_port4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/edit_send4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/btn_send4"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="#DDDDDD"
+                    android:digits="0123456789abcdef"
+                    android:gravity="top"
+                    android:text="dd" />
+
+                <TextView
+                    android:id="@+id/tv_speed4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:text="波特率:"
+                    android:visibility="gone" />
+
+                <Spinner
+                    android:id="@+id/spinner_speed4"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toLeftOf="@+id/btn_open4"
+                    android:layout_toRightOf="@+id/tv_speed4"
+                    android:entries="@array/speed" />
+
+                <Button
+                    android:id="@+id/btn_open4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:text="开启" />
+
+                <Button
+                    android:id="@+id/btn_send4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_above="@+id/btn_open4"
+                    android:layout_alignParentRight="true"
+                    android:text="发送" />
+
+                <TextView
+                    android:id="@+id/tv_port4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_above="@+id/tv_speed4"
+                    android:gravity="center"
+                    android:text="串口设备:"
+                    android:visibility="gone" />
+
+                <Spinner
+                    android:id="@+id/spinner_port4"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_above="@+id/btn_open4"
+                    android:layout_toLeftOf="@+id/btn_send4"
+                    android:layout_toRightOf="@+id/tv_port4"
+                    android:entries="@array/port" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

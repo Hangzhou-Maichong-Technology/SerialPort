@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_one"
+        android:orderInCategory="100"
+        android:title="1串口"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_two"
+        android:orderInCategory="100"
+        android:title="2串口"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_three"
+        android:orderInCategory="100"
+        android:title="3串口"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_four"
+        android:orderInCategory="100"
+        android:title="4串口"
+        app:showAsAction="never" />
+</menu>
