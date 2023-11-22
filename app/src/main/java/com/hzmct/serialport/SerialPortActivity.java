@@ -10,12 +10,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Build;
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.TimeUtils;
+import com.hzmct.serialport.permission.PermissionUtil;
+
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import android_serialport_api.Device;
 import android_serialport_api.SerialPortManager;
@@ -30,6 +43,8 @@ public class SerialPortActivity extends AppCompatActivity implements View.OnClic
     private Spinner spinnerSpeed, spinnerSpeed2, spinnerSpeed3, spinnerSpeed4;
     private TextView tvRecv;
     private EditText editSend, editSend2, editSend3, editSend4;
+    private CheckBox cbLoopTime1, cbLoopTime2, cbLoopTime3, cbLoopTime4;
+    private EditText etLoopTime1, etLoopTime2, etLoopTime3, etLoopTime4;
 
     private SerialPortManager serialPortManager, serialPortManager2, serialPortManager3, serialPortManager4;
     private boolean openFlag = false;
@@ -44,23 +59,36 @@ public class SerialPortActivity extends AppCompatActivity implements View.OnClic
     private int selectSpeed2 = 300;
     private int selectSpeed3 = 300;
     private int selectSpeed4 = 300;
+    private long loopTime = 500;
+    private long loopTime2 = 500;
+    private long loopTime3 = 500;
+    private long loopTime4 = 500;
     private String recvStr = "";
     private RelativeLayout rl_port2, rl_port3, rl_port4;
     private LinearLayout ll_port2;
+    private ScheduledFuture sendFuture1, sendFuture2, sendFuture3, sendFuture4;
+    private PermissionUtil permissionUtil = new PermissionUtil();
+    private AtomicInteger recvLine = new AtomicInteger(0);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_serialport);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !permissionUtil.hasPermission(this)) {
+            permissionUtil.requestPermission(this);
+        }
+
         findId();
         tvRecv.setMovementMethod(ScrollingMovementMethod.getInstance());
         initSpinner();
+        initCheckBox();
+        initData();
         try {
             Thread.sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 
     private void initSpinner() {
@@ -166,6 +194,172 @@ public class SerialPortActivity extends AppCompatActivity implements View.OnClic
         });
     }
 
+    private void initCheckBox() {
+        cbLoopTime1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    if (openFlag) {
+                        try {
+                            loopTime = Long.parseLong(etLoopTime1.getText().toString());
+                        } catch (Exception e) {
+                            loopTime = 500;
+                            etLoopTime1.setText(500);
+                        }
+
+                        if (sendFuture1 != null) {
+                            sendFuture1.cancel(true);
+                            sendFuture1 = null;
+                        }
+
+                        sendFuture1 = Executors.newScheduledThreadPool(1, new ThreadFactory() {
+                            @Override
+                            public Thread newThread(Runnable r) {
+                                return new Thread(r, "LoopSendThread1");
+                            }
+                        }).scheduleAtFixedRate(new TimerTask() {
+                            @Override
+                            public void run() {
+                                serialSend1();
+                            }
+                        }, 0, loopTime, TimeUnit.MILLISECONDS);
+                    } else {
+                        cbLoopTime1.setChecked(false);
+                    }
+                } else {
+                    if (sendFuture1 != null) {
+                        sendFuture1.cancel(true);
+                        sendFuture1 = null;
+                    }
+                }
+            }
+        });
+
+        cbLoopTime2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    if (openFlag2) {
+                        try {
+                            loopTime2 = Long.parseLong(etLoopTime2.getText().toString());
+                        } catch (Exception e) {
+                            loopTime2 = 500;
+                            etLoopTime2.setText(500);
+                        }
+
+                        if (sendFuture2 != null) {
+                            sendFuture2.cancel(true);
+                            sendFuture2 = null;
+                        }
+
+                        sendFuture2 = Executors.newScheduledThreadPool(1, new ThreadFactory() {
+                            @Override
+                            public Thread newThread(Runnable r) {
+                                return new Thread(r, "LoopSendThread2");
+                            }
+                        }).scheduleAtFixedRate(new TimerTask() {
+                            @Override
+                            public void run() {
+                                serialSend2();
+                            }
+                        }, 0, loopTime2, TimeUnit.MILLISECONDS);
+                    } else {
+                        cbLoopTime2.setChecked(false);
+                    }
+                } else {
+                    if (sendFuture2 != null) {
+                        sendFuture2.cancel(true);
+                        sendFuture2 = null;
+                    }
+                }
+            }
+        });
+
+        cbLoopTime3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    if (openFlag3) {
+                        try {
+                            loopTime3 = Long.parseLong(etLoopTime3.getText().toString());
+                        } catch (Exception e) {
+                            loopTime3 = 500;
+                            etLoopTime3.setText(500);
+                        }
+
+                        if (sendFuture3 != null) {
+                            sendFuture3.cancel(true);
+                            sendFuture3 = null;
+                        }
+
+                        sendFuture3 = Executors.newScheduledThreadPool(1, new ThreadFactory() {
+                            @Override
+                            public Thread newThread(Runnable r) {
+                                return new Thread(r, "LoopSendThread3");
+                            }
+                        }).scheduleAtFixedRate(new TimerTask() {
+                            @Override
+                            public void run() {
+                                serialSend3();
+                            }
+                        }, 0, loopTime3, TimeUnit.MILLISECONDS);
+                    } else {
+                        cbLoopTime3.setChecked(false);
+                    }
+                } else {
+                    if (sendFuture3 != null) {
+                        sendFuture3.cancel(true);
+                        sendFuture3 = null;
+                    }
+                }
+            }
+        });
+
+        cbLoopTime4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    if (openFlag4) {
+                        try {
+                            loopTime4 = Long.parseLong(etLoopTime4.getText().toString());
+                        } catch (Exception e) {
+                            loopTime4 = 500;
+                            etLoopTime4.setText(500);
+                        }
+
+                        if (sendFuture4 != null) {
+                            sendFuture4.cancel(true);
+                            sendFuture4 = null;
+                        }
+
+                        sendFuture4 = Executors.newScheduledThreadPool(1, new ThreadFactory() {
+                            @Override
+                            public Thread newThread(Runnable r) {
+                                return new Thread(r, "LoopSendThread4");
+                            }
+                        }).scheduleAtFixedRate(new TimerTask() {
+                            @Override
+                            public void run() {
+                                serialSend4();
+                            }
+                        }, 0, loopTime4, TimeUnit.MILLISECONDS);
+                    } else {
+                        cbLoopTime4.setChecked(false);
+                    }
+                } else {
+                    if (sendFuture4 != null) {
+                        sendFuture4.cancel(true);
+                        sendFuture4 = null;
+                    }
+                }
+            }
+        });
+    }
+
+    private void initData() {
+        LogUtils.getConfig().setDir("/sdcard").setLog2FileSwitch(true);
+    }
+
     @Override
     protected void onDestroy() {
         closeSerialPort(0);
@@ -175,11 +369,18 @@ public class SerialPortActivity extends AppCompatActivity implements View.OnClic
         super.onDestroy();
     }
 
-    private void updateRecvInfo(final String recv, final boolean clear) {
+    private synchronized void updateRecvInfo(final String recv, final boolean clear) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                recvStr = clear ? recv : recvStr + recv + "\n";
+                boolean realClear = clear;
+
+                if (recvLine.getAndIncrement() > 100) {
+                    recvLine.set(0);
+                    realClear = true;
+                }
+
+                recvStr = realClear ? recv : recvStr + recv + "\n";
                 tvRecv.setText(recvStr);
 
                 int scrollAmount = tvRecv.getLayout().getLineTop(tvRecv.getLineCount()) - tvRecv.getHeight();
@@ -210,8 +411,10 @@ public class SerialPortActivity extends AppCompatActivity implements View.OnClic
                         @Override
                         public void onDataReceive(byte[] recvBytes, int i) {
                             if (recvBytes != null && recvBytes.length > 0) {
-                                Log.i(TAG, "recvBytes === " + bytesToHexString(recvBytes, recvBytes.length));
-                                updateRecvInfo(device.path+" : "+bytesToHexString(recvBytes, recvBytes.length), false);
+                                String recvInfo = TimeUtils.getNowString() + " | " + device.path +
+                                        "| recvBytes === " + bytesToHexString(recvBytes, recvBytes.length);
+                                LogUtils.i(recvInfo);
+                                updateRecvInfo(recvInfo, false);
                             }
                         }
                     });
@@ -231,8 +434,10 @@ public class SerialPortActivity extends AppCompatActivity implements View.OnClic
                         @Override
                         public void onDataReceive(byte[] recvBytes, int i) {
                             if (recvBytes != null && recvBytes.length > 0) {
-                                Log.i(TAG, "recvBytes === " + bytesToHexString(recvBytes, recvBytes.length));
-                                updateRecvInfo(device.path+":"+bytesToHexString(recvBytes, recvBytes.length), false);
+                                String recvInfo = TimeUtils.getNowString() + " | " + device.path +
+                                        "| recvBytes === " + bytesToHexString(recvBytes, recvBytes.length);
+                                LogUtils.i(recvInfo);
+                                updateRecvInfo(recvInfo, false);
                             }
                         }
                     });
@@ -251,8 +456,10 @@ public class SerialPortActivity extends AppCompatActivity implements View.OnClic
                         @Override
                         public void onDataReceive(byte[] recvBytes, int i) {
                             if (recvBytes != null && recvBytes.length > 0) {
-                                Log.i(TAG, "recvBytes === " + bytesToHexString(recvBytes, recvBytes.length));
-                                updateRecvInfo(device.path+":"+bytesToHexString(recvBytes, recvBytes.length), false);
+                                String recvInfo = TimeUtils.getNowString() + " | " + device.path +
+                                        "| recvBytes === " + bytesToHexString(recvBytes, recvBytes.length);
+                                LogUtils.i(recvInfo);
+                                updateRecvInfo(recvInfo, false);
                             }
                         }
                     });
@@ -271,8 +478,10 @@ public class SerialPortActivity extends AppCompatActivity implements View.OnClic
                         @Override
                         public void onDataReceive(byte[] recvBytes, int i) {
                             if (recvBytes != null && recvBytes.length > 0) {
-                                Log.i(TAG, "recvBytes === " + bytesToHexString(recvBytes, recvBytes.length));
-                                updateRecvInfo(device.path+":"+bytesToHexString(recvBytes, recvBytes.length), false);
+                                String recvInfo = TimeUtils.getNowString() + " | " + device.path +
+                                        "| recvBytes === " + bytesToHexString(recvBytes, recvBytes.length);
+                                LogUtils.i(recvInfo);
+                                updateRecvInfo(recvInfo, false);
                             }
                         }
                     });
@@ -327,6 +536,7 @@ public class SerialPortActivity extends AppCompatActivity implements View.OnClic
             case 0:
                 btnOpen.setText("开启");
                 openFlag = false;
+                cbLoopTime1.setChecked(false);
 
                 if (serialPortManager != null) {
                     serialPortManager.closeSerialPort();
@@ -336,6 +546,7 @@ public class SerialPortActivity extends AppCompatActivity implements View.OnClic
             case 1:
                 btnOpen2.setText("开启");
                 openFlag2 = false;
+                cbLoopTime2.setChecked(false);
 
                 if (serialPortManager2 != null) {
                     serialPortManager2.closeSerialPort();
@@ -345,6 +556,7 @@ public class SerialPortActivity extends AppCompatActivity implements View.OnClic
             case 2:
                 btnOpen3.setText("开启");
                 openFlag3 = false;
+                cbLoopTime3.setChecked(false);
 
                 if (serialPortManager3 != null) {
                     serialPortManager3.closeSerialPort();
@@ -354,6 +566,7 @@ public class SerialPortActivity extends AppCompatActivity implements View.OnClic
             case 3:
                 btnOpen4.setText("开启");
                 openFlag4 = false;
+                cbLoopTime4.setChecked(false);
 
                 if (serialPortManager4 != null) {
                     serialPortManager4.closeSerialPort();
@@ -421,6 +634,8 @@ public class SerialPortActivity extends AppCompatActivity implements View.OnClic
         spinnerPort = findViewById(R.id.spinner_port);
         spinnerSpeed = findViewById(R.id.spinner_speed);
         editSend = findViewById(R.id.edit_send);
+        cbLoopTime1 = findViewById(R.id.cb_loop_time);
+        etLoopTime1 = findViewById(R.id.et_loop_time);
 
         rl_port2 = findViewById(R.id.rl_port2);
         btnSend2 = findViewById(R.id.btn_send2);
@@ -430,6 +645,8 @@ public class SerialPortActivity extends AppCompatActivity implements View.OnClic
         spinnerPort2 = findViewById(R.id.spinner_port2);
         spinnerSpeed2 = findViewById(R.id.spinner_speed2);
         editSend2 = findViewById(R.id.edit_send2);
+        cbLoopTime2 = findViewById(R.id.cb_loop_time2);
+        etLoopTime2 = findViewById(R.id.et_loop_time2);
 
         ll_port2 = findViewById(R.id.ll_port2);
         rl_port3 = findViewById(R.id.rl_port3);
@@ -440,6 +657,8 @@ public class SerialPortActivity extends AppCompatActivity implements View.OnClic
         spinnerPort3 = findViewById(R.id.spinner_port3);
         spinnerSpeed3 = findViewById(R.id.spinner_speed3);
         editSend3 = findViewById(R.id.edit_send3);
+        cbLoopTime3 = findViewById(R.id.cb_loop_time3);
+        etLoopTime3 = findViewById(R.id.et_loop_time3);
 
         rl_port4 = findViewById(R.id.rl_port4);
         btnSend4 = findViewById(R.id.btn_send4);
@@ -449,6 +668,68 @@ public class SerialPortActivity extends AppCompatActivity implements View.OnClic
         spinnerPort4 = findViewById(R.id.spinner_port4);
         spinnerSpeed4 = findViewById(R.id.spinner_speed4);
         editSend4 = findViewById(R.id.edit_send4);
+        cbLoopTime4 = findViewById(R.id.cb_loop_time4);
+        etLoopTime4 = findViewById(R.id.et_loop_time4);
+    }
+
+    private void serialSend1() {
+        if (serialPortManager != null) {
+            String sendStr = editSend.getText().toString();
+            if (sendStr.length() % 2 != 0) {
+                Toast.makeText(SerialPortActivity.this, "发送数据长度必须为2的倍数", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            LogUtils.i(TimeUtils.getNowString() + " | Device1 | sendBytes === " + sendStr);
+
+            byte[] bytes = hexString2Bytes(sendStr);
+            serialPortManager.sendPacket(bytes);
+        }
+    }
+
+    private void serialSend2() {
+        if (serialPortManager2 != null) {
+            String sendStr = editSend2.getText().toString();
+            if (sendStr.length() % 2 != 0) {
+                Toast.makeText(SerialPortActivity.this, "发送数据长度必须为2的倍数", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            LogUtils.i(TimeUtils.getNowString() + " | Device2 | sendBytes === " + sendStr);
+
+            byte[] bytes = hexString2Bytes(sendStr);
+            serialPortManager2.sendPacket(bytes);
+        }
+    }
+
+    private void serialSend3() {
+        if (serialPortManager3 != null) {
+            String sendStr = editSend3.getText().toString();
+            if (sendStr.length() % 2 != 0) {
+                Toast.makeText(SerialPortActivity.this, "发送数据长度必须为2的倍数", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            LogUtils.i(TimeUtils.getNowString() + " | Device3 | sendBytes === " + sendStr);
+
+            byte[] bytes = hexString2Bytes(sendStr);
+            serialPortManager3.sendPacket(bytes);
+        }
+    }
+
+    private void serialSend4() {
+        if (serialPortManager4 != null) {
+            String sendStr = editSend4.getText().toString();
+            if (sendStr.length() % 2 != 0) {
+                Toast.makeText(SerialPortActivity.this, "发送数据长度必须为2的倍数", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            LogUtils.i(TimeUtils.getNowString() + " | Device4 | sendBytes === " + sendStr);
+
+            byte[] bytes = hexString2Bytes(sendStr);
+            serialPortManager4.sendPacket(bytes);
+        }
     }
 
     @Override
@@ -458,56 +739,16 @@ public class SerialPortActivity extends AppCompatActivity implements View.OnClic
                 updateRecvInfo("", true);
                 break;
             case R.id.btn_send:
-                // 发送串口数据
-                if (serialPortManager != null) {
-                    String sendStr = editSend.getText().toString();
-                    if (sendStr.length() % 2 != 0) {
-                        Toast.makeText(SerialPortActivity.this, "发送数据长度必须为2的倍数", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    byte[] bytes = hexString2Bytes(sendStr);
-                    serialPortManager.sendPacket(bytes);
-                }
+                serialSend1();
                 break;
             case R.id.btn_send2:
-                // 发送串口数据
-                if (serialPortManager2 != null) {
-                    String sendStr = editSend2.getText().toString();
-                    if (sendStr.length() % 2 != 0) {
-                        Toast.makeText(SerialPortActivity.this, "发送数据长度必须为2的倍数", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    byte[] bytes = hexString2Bytes(sendStr);
-                    serialPortManager2.sendPacket(bytes);
-                }
+                serialSend2();
                 break;
             case R.id.btn_send3:
-                // 发送串口数据
-                if (serialPortManager3 != null) {
-                    String sendStr = editSend3.getText().toString();
-                    if (sendStr.length() % 2 != 0) {
-                        Toast.makeText(SerialPortActivity.this, "发送数据长度必须为2的倍数", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    byte[] bytes = hexString2Bytes(sendStr);
-                    serialPortManager3.sendPacket(bytes);
-                }
+                serialSend3();
                 break;
             case R.id.btn_send4:
-                // 发送串口数据
-                if (serialPortManager4 != null) {
-                    String sendStr = editSend4.getText().toString();
-                    if (sendStr.length() % 2 != 0) {
-                        Toast.makeText(SerialPortActivity.this, "发送数据长度必须为2的倍数", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    byte[] bytes = hexString2Bytes(sendStr);
-                    serialPortManager4.sendPacket(bytes);
-                }
+                serialSend4();
                 break;
             case R.id.btn_open:
                 if (openFlag) {

@@ -67,7 +67,7 @@
                     android:id="@+id/edit_send"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_above="@+id/btn_send"
+                    android:layout_above="@+id/cb_loop_time"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="5dp"
@@ -128,6 +128,23 @@
                     android:layout_toLeftOf="@+id/btn_send"
                     android:layout_toRightOf="@+id/tv_port"
                     android:entries="@array/port" />
+
+                <CheckBox
+                    android:id="@+id/cb_loop_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="自动发送(ms)"
+                    android:layout_alignParentRight="true"
+                    android:layout_above="@+id/btn_send"/>
+
+                <EditText
+                    android:id="@+id/et_loop_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_above="@+id/btn_send"
+                    android:layout_toLeftOf="@+id/cb_loop_time"
+                    android:digits="0123456789"
+                    android:text="500" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -141,7 +158,7 @@
                     android:id="@+id/edit_send2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_above="@+id/btn_send2"
+                    android:layout_above="@+id/cb_loop_time2"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="5dp"
@@ -202,6 +219,23 @@
                     android:layout_toLeftOf="@+id/btn_send2"
                     android:layout_toRightOf="@+id/tv_port2"
                     android:entries="@array/port" />
+
+                <CheckBox
+                    android:id="@+id/cb_loop_time2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="自动发送(ms)"
+                    android:layout_alignParentRight="true"
+                    android:layout_above="@+id/btn_send2"/>
+
+                <EditText
+                    android:id="@+id/et_loop_time2"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_above="@+id/btn_send2"
+                    android:layout_toLeftOf="@+id/cb_loop_time2"
+                    android:digits="0123456789"
+                    android:text="500" />
             </RelativeLayout>
 
         </LinearLayout>
@@ -225,7 +259,11 @@
                     android:id="@+id/edit_send3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_above="@+id/btn_send3"
+                    android:layout_above="@+id/cb_loop_time3"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
                     android:background="#DDDDDD"
                     android:digits="0123456789abcdef"
                     android:gravity="top"
@@ -282,6 +320,23 @@
                     android:layout_toLeftOf="@+id/btn_send3"
                     android:layout_toRightOf="@+id/tv_port3"
                     android:entries="@array/port" />
+
+                <CheckBox
+                    android:id="@+id/cb_loop_time3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="自动发送(ms)"
+                    android:layout_alignParentRight="true"
+                    android:layout_above="@+id/btn_send3"/>
+
+                <EditText
+                    android:id="@+id/et_loop_time3"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_above="@+id/btn_send3"
+                    android:layout_toLeftOf="@+id/cb_loop_time3"
+                    android:digits="0123456789"
+                    android:text="500" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -295,7 +350,7 @@
                     android:id="@+id/edit_send4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_above="@+id/btn_send4"
+                    android:layout_above="@+id/cb_loop_time4"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="5dp"
@@ -356,6 +411,23 @@
                     android:layout_toLeftOf="@+id/btn_send4"
                     android:layout_toRightOf="@+id/tv_port4"
                     android:entries="@array/port" />
+
+                <CheckBox
+                    android:id="@+id/cb_loop_time4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="自动发送(ms)"
+                    android:layout_alignParentRight="true"
+                    android:layout_above="@+id/btn_send4"/>
+
+                <EditText
+                    android:id="@+id/et_loop_time4"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_above="@+id/btn_send4"
+                    android:layout_toLeftOf="@+id/cb_loop_time4"
+                    android:digits="0123456789"
+                    android:text="500" />
             </RelativeLayout>
 
         </LinearLayout>

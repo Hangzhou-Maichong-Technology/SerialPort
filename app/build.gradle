@@ -8,7 +8,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 2
-        versionName "1.1.0"
+        versionName "1.2.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -24,8 +24,8 @@ android {
         variant ->
             variant.outputs.all {
                 //这里修改apk文件名
-//                outputFileName = "SerialPort-v${variant.versionName}.apk"
-                outputFileName = "SerialPort.apk"
+                outputFileName = "SerialPort-v${variant.versionName}.apk"
+//                outputFileName = "SerialPort.apk"
             }
     }
 }
@@ -39,4 +39,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation files('libs/mcSerialPort.aar')
+    implementation 'com.blankj:utilcode:1.30.6'
 }
